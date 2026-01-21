@@ -1,11 +1,8 @@
-"use client";
-
 import footerBackground from "@/public/footer-background.jpg";
 import logo from "@/public/logo.png";
 import Image from "next/image";
-import { LuFacebook, LuInstagram, LuLinkedin, LuYoutube } from "react-icons/lu";
-import { menuArray } from "../constants/menu";
-import { scrollSection } from "../_utils/utils";
+import { FooterLinks } from "./footerLinks";
+import { FooterSocialMedia } from "./footerSocialMedia";
 
 export function Footer() {
   return (
@@ -35,27 +32,7 @@ export function Footer() {
 
           <div className="w-87">
             <h4 className="text-text-inverse mb-4">Links rápidos</h4>
-            <ul className="text-text-grey-light flex flex-col gap-2">
-              <li>
-                <button
-                  className="cursor-pointer transition-all hover:text-text-active"
-                  onClick={() => scrollSection("hero")}
-                >
-                  Início
-                </button>
-              </li>
-
-              {menuArray.map((menu, index) => (
-                <li key={index}>
-                  <button
-                    className="cursor-pointer transition-all hover:text-text-active"
-                    onClick={() => scrollSection(menu.sectionId)}
-                  >
-                    {menu.txt}
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <FooterLinks />
           </div>
 
           <div className="w-87">
@@ -78,12 +55,7 @@ export function Footer() {
 
           <div className="w-87">
             <h4 className="text-text-inverse mb-4">Redes sociais</h4>
-            <div className="text-text-inverse flex items-center gap-4">
-              <LuFacebook size={22} />
-              <LuInstagram size={22} />
-              <LuLinkedin size={22} />
-              <LuYoutube size={22} />
-            </div>
+            <FooterSocialMedia />
           </div>
         </div>
         <div className="border-t border-gray-700 pt-6 sm:pt-8 text-center text-gray-400 text-xs sm:text-sm w-full">
