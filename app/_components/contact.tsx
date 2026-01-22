@@ -1,7 +1,7 @@
-import { LuMail, LuMapPin, LuPhone, LuSend } from "react-icons/lu";
+import { LuMail, LuMapPin, LuPhone } from "react-icons/lu";
 import { SectionHeader } from "./ui/sectionHeader";
 import { IconType } from "react-icons";
-import { Button } from "./ui/button";
+import { ContactForm } from "./contactForm";
 
 type Contact = {
   label: string;
@@ -70,48 +70,7 @@ export function Contact() {
           </div>
         </div>
 
-        <div className="rounded-2xl p-4 sm:p-6 lg:8 shadow-md flex flex-col gap-4 sm:gap-6">
-          <div className="flex flex-col">
-            <label className="text-text-label text-sm mb-2">
-              Nome completo
-            </label>
-            <input
-              className="border border-stroke-default rounded-lg p-4 text-sm focus:outline-none focus:ring-2 focus:ring-icon-active transition-all"
-              type="text"
-              placeholder="Seu nome"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-text-label text-sm mb-2">E-mail</label>
-            <input
-              className="border border-stroke-default rounded-lg p-4 text-sm focus:outline-none focus:ring-2 focus:ring-icon-active transition-all"
-              type="text"
-              placeholder="exemplo@email.com"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-text-label text-sm mb-2">Telefone</label>
-            <input
-              className="border border-stroke-default rounded-lg p-4 text-sm focus:outline-none focus:ring-2 focus:ring-icon-active transition-all"
-              type="text"
-              placeholder="(51) 99999-9999"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-text-label text-sm mb-2">Mensagem</label>
-
-            <textarea
-              name="mensagem"
-              className="border border-stroke-default rounded-lg p-4 text-sm focus:outline-none focus:ring-2 focus:ring-icon-active transition-all"
-              placeholder="Conte-nos sobre seu projeto..."
-              rows={4}
-            ></textarea>
-          </div>
-          <Button>
-            Enviar mensagem
-            <LuSend size={20} />
-          </Button>
-        </div>
+        <ContactForm />
       </div>
     </section>
   );
