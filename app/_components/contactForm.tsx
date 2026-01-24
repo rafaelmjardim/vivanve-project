@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import emailjs from "emailjs-com";
 import { useState } from "react";
+import { maskPhone } from "../_utils/utils";
 
 type Inputs = {
   name: string;
@@ -101,7 +102,12 @@ export function ContactForm() {
           className="border border-stroke-default rounded-lg p-4 text-sm focus:outline-none focus:ring-2 focus:ring-icon-active transition-all"
           type="text"
           placeholder="(51) 99999-9999"
-          {...register("phone", { required: true })}
+          {...register("phone", {
+            required: true,
+            onChange: (e) => {
+              e.target.value = maskPhone(e.target.value);
+            },
+          })}
         />
         {errors.phone?.type === "required" && (
           <p className="text-[.75rem] text-red-600 mt-0.5">

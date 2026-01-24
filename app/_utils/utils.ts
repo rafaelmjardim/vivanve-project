@@ -14,3 +14,13 @@ export function linkWhatsApp(customMessage?: string) {
   const url = `https://wa.me/${number}?text=${customMessage ?? defaultMessage}`;
   window.open(url, "_blank");
 }
+
+export function maskPhone(value: string): string {
+  if (!value) return "";
+
+  return value
+    .replace(/\D/g, "")
+    .slice(0, 11)
+    .replace(/^(\d{2})(\d)/, "($1) $2")
+    .replace(/(\d)(\d{4})$/, "$1-$2");
+}
