@@ -1,8 +1,10 @@
 "use client";
 
-import { LuSend } from "react-icons/lu";
+import { LuLoaderCircle, LuMailCheck, LuSend } from "react-icons/lu";
 import { Button } from "./ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
+import emailjs from "emailjs-com";
+import { useState } from "react";
 
 type Inputs = {
   name: string;
@@ -12,13 +14,53 @@ type Inputs = {
 };
 
 export function ContactForm() {
+  const [loaderSend, setLoaderSend] = useState(false);
+  const [successAlert, setSuccessAlert] = useState(false);
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log("data", data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    sendEmail(data);
+  };
+
+  const serviceID = process.env.NEXT_PUBLIC_SERVICE_ID;
+  const templateID = process.env.NEXT_PUBLIC_TEMPLATE_ID;
+  const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
+
+  const sendEmail = async (data: Inputs) => {
+    setLoaderSend(true);
+
+    if (!serviceID || !templateID || !publicKey) {
+      throw new Error(
+        "Necessário configurar variaveis de ambiente, as mesmas estão retornando undefined.",
+      );
+      return;
+    }
+
+    try {
+      await emailjs.send(serviceID, templateID, data, publicKey);
+      reset();
+      setSuccessAlert(true);
+      setLoaderSend(false);
+      resetSuccessAlert();
+    } catch (error) {
+      console.log("Erro ao enviar email: ", error);
+    } finally {
+      setLoaderSend(false);
+      resetSuccessAlert();
+    }
+  };
+
+  const resetSuccessAlert = () => {
+    setTimeout(() => {
+      setSuccessAlert(false);
+    }, 3000);
+  };
 
   return (
     <form
@@ -82,9 +124,17 @@ export function ContactForm() {
           </p>
         )}
       </div>
-      <Button>
-        Enviar mensagem
-        <LuSend size={20} />
+      <Button className="transition-all">
+        {!loaderSend && successAlert
+          ? "Mensagem Enviada com sucesso"
+          : "Enviar mensagem"}
+        {!loaderSend && !successAlert && <LuSend size={20} />}
+        {!loaderSend && successAlert && (
+          <LuMailCheck size={20} className="animate-scale-pulse" />
+        )}
+        {loaderSend && !successAlert && (
+          <LuLoaderCircle size={20} className="animate-spin" />
+        )}
       </Button>
     </form>
   );
