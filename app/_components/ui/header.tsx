@@ -6,10 +6,13 @@ import { menuArray } from "@/app/constants/menu";
 import { scrollSection } from "@/app/_utils/utils";
 import { LuChevronDown } from "react-icons/lu";
 import { MenuSheet } from "../menuSheet";
+import { useState } from "react";
 
 export function Header() {
+  const [isOpenOptions, setIsOpenOptions] = useState(false);
+
   const openSelect = () => {
-    alert("Em desenvolvimento");
+    setIsOpenOptions(!isOpenOptions);
   };
 
   return (
@@ -27,18 +30,43 @@ export function Header() {
 
       <ul className="hidden lg:inline-flex tems-center text-text-inverse gap-8">
         {menuArray.map((menu, index) => (
-          <li key={index}>
+          <li className="z-10 relative transition-all" key={index}>
             <button
               onClick={() =>
                 menu.isSelect ? openSelect() : scrollSection(menu?.sectionId)
               }
-              className="cursor-pointer transition-all hover:text-text-active flex items-center gap-2"
+              className="z-10 cursor-pointer transition-all hover:text-text-active flex items-center gap-2"
             >
               {menu.txt}
               {menu.isSelect && <LuChevronDown size={20} />}
             </button>
+
+            {menu.isSelect && isOpenOptions && (
+              <>
+                <ul className="z-10 px-4 py-3 absolute top-8 right-0 bg-[#272727]  rounded-md shadow-lg">
+                  <li className="cursor-pointer p-1 hover:text-text-active transition text-nowrap border-b border-[#444]">
+                    Obras de infraestrutura
+                  </li>
+                  <li className="cursor-pointer p-1 hover:text-text-active transition text-nowrap border-b border-[#444]">
+                    Obras de saneamento
+                  </li>
+                  <li className="cursor-pointer p-1 hover:text-text-active transition text-nowrap border-b border-[#444]">
+                    Obras civis e industriais
+                  </li>
+                  <li className="cursor-pointer p-1 hover:text-text-active transition text-nowrap">
+                    Terraplanagem e Pavimentação
+                  </li>
+                </ul>
+              </>
+            )}
           </li>
         ))}
+        {isOpenOptions && (
+          <div
+            className="bg-black/20 w-full h-screen fixed top-0 left-0"
+            onClick={() => setIsOpenOptions(false)}
+          ></div>
+        )}
       </ul>
 
       <div className="lg:hidden">
